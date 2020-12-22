@@ -137,3 +137,21 @@ a:visited {
 a:hover {
   text-decoration: none;
 }
+
+img {
+    max-width: 100%;
+}
+
+.postlist {
+    margin: 0;
+    padding: 0;
+}
+
+.postlist-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.post-content {
+    margin-left: 10px;
+}

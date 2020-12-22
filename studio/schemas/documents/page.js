@@ -2,9 +2,9 @@ import {format} from 'date-fns'
 import template from '../layout/template'
 
 export default {
-  name: 'post',
+  name: 'page',
   type: 'document',
-  title: 'Blog Post',
+  title: 'Pages',
   fields: [
     {
       name: 'template',
@@ -12,6 +12,13 @@ export default {
       description: 'Page template',
       type: 'string',
       options: template
+    },
+    {
+      name: 'publishedAt',
+      type: 'datetime',
+      title: 'Published at',
+      description: 'This can be used to schedule post for publishing',
+      hidden: true
     },
     {
       name: 'title',
@@ -30,46 +37,24 @@ export default {
       }
     },
     {
-      name: 'publishedAt',
-      type: 'datetime',
-      title: 'Published at',
-      description: 'This can be used to schedule post for publishing'
-    },
-    {
-      name: 'mainImage',
-      type: 'mainImage',
-      title: 'Main image'
-    },
-    {
       name: 'excerpt',
       type: 'excerptPortableText',
       title: 'Excerpt',
       description:
-        'This ends up on summary pages, on Google, when people share your post in social media.'
+        'This ends up on summary pages, on Google, when people share your pages in social media.'
+    },
+    {
+      name: 'hero',
+      type: 'hero',
+      title: 'Hero',
+      description:
+        'The hero sits at the top of the page containing an image and copy. Use this to introduce your content'
     },
     {
       name: 'sections',
       title: 'Sections',
       type: 'array',
-      of: [{type: 'form'}, {type: 'authorReference'}, {type: 'mainImage'}]
-    },
-    {
-      name: 'categories',
-      type: 'array',
-      title: 'Categories',
-      of: [
-        {
-          type: 'reference',
-          to: {
-            type: 'category'
-          }
-        }
-      ]
-    },
-    {
-      name: 'body',
-      type: 'bodyPortableText',
-      title: 'Body'
+      of: [{type: 'bodyCopy'}, {type: 'form'}, {type: 'video'}]
     }
   ],
   orderings: [
@@ -105,16 +90,13 @@ export default {
   preview: {
     select: {
       title: 'title',
-      publishedAt: 'publishedAt',
-      slug: 'slug',
-      media: 'mainImage'
+      slug: 'slug'
     },
-    prepare ({title = 'No title', publishedAt, slug = {}, media}) {
+    prepare ({title = 'No title', publishedAt, slug = {}}) {
       const dateSegment = format(publishedAt, 'YYYY/MM')
       const path = `/${dateSegment}/${slug.current}/`
       return {
         title,
-        media,
         subtitle: publishedAt ? path : 'Missing publishing date'
       }
     }

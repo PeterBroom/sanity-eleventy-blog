@@ -2,9 +2,16 @@
 layout: layouts/base.njk
 templateClass: tmpl-post
 ---
-<article>
+<article class="{% if post.template %}{{post.template}}{% else %}template-a{% endif %}">
   <h1>{{ post.title }}</h1>
-  <p>Written by {% for author in post.authors %}{{author.name}}{% endfor %}  </p>
+
+  <img src="{% imageUrlFor post.mainImage, 900  %}" alt="{{ post.mainImage.alt }}">
+
+  <p>Written by {% for author in post.authors %}{{author.name}}
+    {% endfor %}
+  </p>
   {{ post.body | markdownify | safe }}
-  <p><a href="{{ '/' | url }}">← Home</a></p>
+  <p>
+    <a href="{{ '/' | url }}">← Home</a>
+  </p>
 </article>
